@@ -1,0 +1,46 @@
+{
+  "name": "sector-09",
+  "version": "0.5.0",
+  "description": "Сектор 09 — одиночный городской экшен",
+  "author": "Sector 09",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5179 --strictPort",
+    "build": "vite build",
+    "start": "electron .",
+    "test": "node --test tests/core.test.mjs tests/physics.test.mjs tests/tuning.test.mjs",
+    "package": "electron-builder --win portable --x64"
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3",
+    "vite": "8.3.2",
+    "@playwright/test": "1.63.0"
+  },
+  "build": {
+    "appId": "game.sector09.prototype",
+    "productName": "Sector 09",
+    "directories": {
+      "output": "../build-sector09"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "Sector-09-Windows.exe",
+      "useZip": true
+    }
+  }
+}

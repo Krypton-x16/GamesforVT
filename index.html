@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Сектор 09 — открытый город, контракты, машины и тактические перестрелки."><title>Сектор 09</title><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ws://127.0.0.1:5179; media-src 'self' blob:; worker-src 'self' blob:"></head>
+<body>
+  <div id="world"></div><div class="vignette"></div><div id="hurt"></div>
+  <div id="hud" class="hidden">
+    <header><div class="brand">СЕКТОР <b>09</b><span>СВОБОДНЫЙ ГОРОД</span></div><div class="top-right"><span id="district">СТАРЫЙ КВАРТАЛ</span><button id="wallet" title="Открыть магазин">$ <b id="money">600</b></button><button id="pauseButton" title="Пауза">Ⅱ</button></div></header>
+    <div id="objective"><span class="eyebrow" id="objectiveTag">НА СВЯЗИ</span><h2 id="objectiveTitle">Твой город. Твои правила.</h2><p id="objectiveText">Нажми M и выбери первый контракт.</p><div id="objectiveProgress"></div></div>
+    <div id="crosshair"><i></i><i></i><i></i><i></i></div><div id="hitmarker">×</div>
+    <div class="left-bottom"><div class="map-header"><span>СЕКТОР 09</span><span id="mapHeading">N</span></div><canvas id="minimap" width="220" height="190"></canvas><div class="health-label"><span>ЗДОРОВЬЕ</span><b id="healthText">100</b></div><div class="health-track"><div id="healthFill"></div></div><div class="armor-track"><div id="armorFill"></div></div></div>
+    <div id="prompt"></div><div id="toast" role="status"></div>
+    <div class="right-bottom"><div id="heat"></div><span class="eyebrow" id="weaponName">P9 / ПИСТОЛЕТ</span><div class="ammo"><strong id="ammo">12</strong><span>/ <b id="reserve">∞</b></span></div><div id="reloadHint">R · ПЕРЕЗАРЯДИТЬ</div><div class="shortcuts"><span><kbd>M</kbd> Контракты</span><span><kbd>B</kbd> Магазин</span><span><kbd>Esc</kbd> Пауза</span></div></div>
+    <div id="speed" class="hidden"><b>0</b><span>КМ/Ч</span></div>
+  </div>
+  <main id="home" class="menu-screen">
+    <div class="menu-top"><span class="wordmark">S / 09</span><span>ОДИНОЧНАЯ ИГРА · WINDOWS</span><span class="build-label">ПРОТОТИП 0.5</span></div>
+    <div class="home-copy"><div class="eyebrow accent">ГОРОД, КОТОРЫЙ НЕ СПИТ</div><h1>СЕКТОР<span>09<span class="title-dot">.</span></span></h1><p>Возьми контракт. Заведи двигатель.<br>Заставь этот город запомнить тебя.</p><button id="play" class="primary big">ВОЙТИ В ГОРОД <span>↵</span></button><div class="home-actions"><button id="homeHelp">Управление</button><button id="homeSettings">Настройки</button><button id="quitHome">Выйти</button></div></div>
+    <div class="home-bottom"><span><b>01</b> ОТКРЫТЫЙ МИР</span><span><b>02</b> КОНТРАКТЫ</span><span><b>03</b> УЛИЧНЫЕ ПЕРЕСТРЕЛКИ</span><span class="offline">OFFLINE / СОХРАНЕНИЕ НА ЭТОМ ПК</span></div>
+    <div class="location-card"><span>ДОБРО ПОЖАЛОВАТЬ В</span><b>НОВЫЙ БЕРЕГ</b><small>18:42 / ЗОЛОТОЙ ЧАС</small></div>
+  </main>
+  <section id="panel" class="hidden" role="dialog" aria-modal="true" aria-labelledby="panelTitle"><div class="panel-shell"><div class="panel-header"><div><span class="eyebrow" id="panelTag">СЕКТОР 09</span><h2 id="panelTitle"></h2></div><button id="closePanel" class="close" aria-label="Закрыть">×</button></div><div id="panelContent"></div></div></section>
+  <div id="fatal" class="hidden"><h2>Не удалось запустить 3D</h2><p id="fatalText"></p><p>Обнови драйвер видеокарты и перезапусти игру.</p></div>
+  <script type="module" src="/src/main.js"></script>
+</body></html>
+
+

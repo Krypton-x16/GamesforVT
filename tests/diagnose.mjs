@@ -1,0 +1,4 @@
+import {_electron as electron} from '@playwright/test';
+const env={...process.env,SECTOR09_TEST:'1',SECTOR09_DEV_URL:'http://127.0.0.1:5179'};delete env.ELECTRON_RUN_AS_NODE;
+const app=await electron.launch({args:['.','--user-data-dir='+process.cwd()+'/test-results/diagnose-'+Date.now()],env});
+try{const page=await app.firstWindow();page.on('console',m=>{if(m.type()==='error')console.log('CONSOLE:',m.text());});page.on('pageerror',m=>console.log('PAGE:',m.message));page.on('requestfailed',r=>console.log('REQUEST:',r.url(),r.failure()));page.on('response',r=>{if(r.status()>=400)console.log('RESPONSE:',r.status(),r.url());});await page.reload();await page.waitForTimeout(2500);console.log(await page.evaluate(()=>({url:location.href,title:document.title,fatal:document.getElementById('fatalText')?.textContent,game:!!window.__game,body:document.body.innerText.slice(-1000)})));}finally{await app.close();}

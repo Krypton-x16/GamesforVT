@@ -1,0 +1,11 @@
+import {_electron as electron} from '@playwright/test';
+import fs from 'node:fs/promises';
+const env={...process.env,SECTOR09_TEST:'1'};delete env.ELECTRON_RUN_AS_NODE;
+const app=await electron.launch({args:['.','--user-data-dir='+process.cwd()+'/test-results/profile'],env});
+const page=await app.firstWindow();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.waitForSelector('#home');await page.waitForTimeout(2500);await page.screenshot({path:'test-results/home.png'});
+console.log(JSON.stringify({title:await page.title(),canvas:await page.locator('#world canvas').count(),fatal:await page.locator('#fatal').isVisible(),errors}));
+await page.click('#homeHelp');await page.screenshot({path:'test-results/help.png'});await page.click('#closePanel');
+await page.click('#play');await page.waitForTimeout(3000);await page.evaluate(()=>{if(document.pointerLockElement)document.exitPointerLock();});
+await page.screenshot({path:'test-results/game.png'});console.log(JSON.stringify({hud:await page.locator('#hud').isVisible(),errors}));
+await app.close();
