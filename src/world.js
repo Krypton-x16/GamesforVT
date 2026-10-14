@@ -43,13 +43,15 @@ export function createWorld(scene){
   const blocks=Array.from({length:10},(_,i)=>-324+i*72);
   for(const x of blocks)for(const z of blocks){
     if(x===36&&z===36||x===-252&&z===-252||x===252&&z===252||x<-216&&z>216)continue;
-    for(const dx of [-15,15])for(const dz of [-15,15]){let xx=x+dx,zz=z+dz;if(special(xx,zz))continue;
+    // Keep the 17 m roads and their sidewalks clear.  The old 15 m offset
+    // put the 19–24 m building footprints into the carriageway at corners.
+    for(const dx of [-24,24])for(const dz of [-24,24]){let xx=x+dx,zz=z+dz;if(special(xx,zz))continue;
       const high=(z<0&&x>0),outer=Math.abs(x)>180||Math.abs(z)>180;let h=outer?7+rand()*20:(high?20:10)+rand()*(high?47:28);building(xx,zz,19+rand()*5,19+rand()*5,h,[0x66808c,0x8b9b97,0x47667a,0x71818b,0x9ca69a][Math.floor(rand()*5)]);
     }
   }
   for(const x of blocks)for(const z of blocks){
     if((x===36&&z===36)||(x===-252&&z===-252)||x<-216&&Math.abs(z)<50)continue;
-    for(const dx of [-15,15])for(const dz of [-15,15]){const lx=x+dx,lz=z+dz;if(special(lx,lz)||Math.abs(lx+24)<20&&Math.abs(lz-25)<20)continue;if(Math.abs(x)>180&&Math.abs(z)>180&&dx<0)continue;const h=(Math.abs(x)<130?20:9)+rand()*(z<0?42:18);building(CITY_OFFSET+lx,lz,19+rand()*4,19+rand()*4,h,0x9ba7a4);}
+    for(const dx of [-24,24])for(const dz of [-24,24]){const lx=x+dx,lz=z+dz;if(special(lx,lz)||Math.abs(lx+24)<20&&Math.abs(lz-25)<20)continue;if(Math.abs(x)>180&&Math.abs(z)>180&&dx<0)continue;const h=(Math.abs(x)<130?20:9)+rand()*(z<0?42:18);building(CITY_OFFSET+lx,lz,19+rand()*4,19+rand()*4,h,0x9ba7a4);}
   }
   architecture.finish();
   // A little park and its central sculpture.
