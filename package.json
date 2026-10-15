@@ -9,9 +9,10 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5179 --strictPort",
     "build": "vite build",
-    "start": "electron .",
+    "start": "npm run build && electron .",
+    "play": "npm run start",
     "test": "node --test tests/core.test.mjs tests/physics.test.mjs tests/tuning.test.mjs",
-    "package": "electron-builder --win portable --x64"
+    "package": "npm run build && electron-builder --win portable --x64"
   },
   "dependencies": {
     "three": "0.186.1"

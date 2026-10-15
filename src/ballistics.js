@@ -16,7 +16,15 @@ export class Ballistics{
     for(let i=this.bullets.length-1;i>=0;i--){const b=this.bullets[i],start=b.position.clone();b.velocity.y-=BULLET_GRAVITY*dt;const end=start.clone().addScaledVector(b.velocity,dt);b.life-=dt;let hit=null,nearest=Infinity;
       const consider=(t,kind,target)=>{if(t!==null&&t<nearest){nearest=t;hit={kind,target};}};
       for(const wall of g.world.colliders){if(Math.abs(start.x-wall.x)>wall.w/2+dt*150+2||Math.abs(start.z-wall.z)>wall.d/2+dt*150+2)continue;consider(segmentBox(start,end,{x:wall.x-wall.w/2,y:0,z:wall.z-wall.d/2},{x:wall.x+wall.w/2,y:wall.h,z:wall.z+wall.d/2}),'wall',wall);}
-      for(const c of g.world.cars){if(Math.hypot(c.mesh.position.x-start.x,c.mesh.position.z-start.z)>10+dt*150)continue;const co=Math.cos(c.angle),s=Math.sin(c.angle),local=p=>{const dx=p.x-c.mesh.position.x,dz=p.z-c.mesh.position.z;return {x:co*dx-s*dz,y:p.y,z:s*dx+co*dz};};consider(segmentBox(local(start),local(end),{x:-c.spec.width/2,y:.2,z:-c.spec.length/2},{x:c.spec.width/2,y:c.spec.height,z:c.spec.length/2}),'car',c);}
+      for(const c of g.world.cars){
+        const carPosition=c.mesh?.position??{x:c.x,z:c.z};
+        if(Math.hypot(carPosition.x-start.x,carPosition.z-start.z)>10+dt*150)continue;
+        const co=Math.cos(c.angle),s=Math.sin(c.angle);
+        // Transform the swept segment into the car's local space so parked
+        // and rotated cars use the same hitbox as driving collisions.
+        const local=p=>{const dx=p.x-carPosition.x,dz=p.z-carPosition.z;return {x:co*dx-s*dz,y:p.y,z:s*dx+co*dz};};
+        consider(segmentBox(local(start),local(end),{x:-c.spec.width/2,y:.08,z:-c.spec.length/2},{x:c.spec.width/2,y:c.spec.height,z:c.spec.length/2}),'car',c);
+      }
       if(b.owner==='player'){for(const e of g.enemies){if(e.hp>0)consider(segmentSphere(start,end,{x:e.mesh.position.x,y:1.2,z:e.mesh.position.z},.8),'enemy',e);}}
       else if(!g.inCar)consider(segmentSphere(start,end,{x:g.player.position.x,y:g.player.position.y+1.15,z:g.player.position.z},.65),'player',g.player);
       for(const p of g.world.pedestrians??[]){if(p.state!=='down')consider(segmentSphere(start,end,{x:p.x,y:p.mesh.position.y+1.15,z:p.z},.65),'pedestrian',p);}
